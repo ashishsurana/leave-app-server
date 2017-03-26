@@ -6,6 +6,7 @@ import * as cors from 'cors';
 import * as helmet from 'helmet';
 import * as morgan from 'morgan';
 import {persons, findPerson, addPerson} from './data-base/person-database';
+import  mongoose = require('mongoose');
 
 // Default port or given one.
 export const GRAPHQL_ROUTE = "/graphql";
@@ -21,7 +22,6 @@ interface IMainOptions {
 
 /* istanbul ignore next: no need to test verbose print */
 function verbosePrint(port, enableGraphiql) {
-  console.log(`GraphQL Server is now running on http://localhost:${port}${GRAPHQL_ROUTE}`);
   if (true === enableGraphiql) {
     console.log(`GraphiQL Server is now running on http://localhost:${port}${GRAPHIQL_ROUTE}`);
   }
@@ -65,7 +65,14 @@ export function main(options: IMainOptions) {
       if (options.verbose) {
         verbosePrint(options.port, options.enableGraphiql);
       }
-      
+      // mongoose connector
+      mongoose.connect('mongodb://localhost/leave', function(err) {
+        if(err){       
+            console.log('connection error', err);
+        } else {
+                console.log('connection successful');
+        }});
+
       resolve(server);
     }).on("error", (err: Error) => {
       reject(err);
