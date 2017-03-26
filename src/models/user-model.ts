@@ -6,7 +6,11 @@ var userSchema = new mongoose.Schema({
     email: String,
     displayName : String,
     empid : String,
-    password : String
+    password : String, 
+    cl: String,
+    pl: String,
+    sl: String,
+    history: [String]// to be chagned to [Leave]
 });
 
 interface UserModel extends UserType, mongoose.Document { }
@@ -14,8 +18,6 @@ interface UserModel extends UserType, mongoose.Document { }
 var User = mongoose.model<UserModel>("User", userSchema);
 
 export async function signUp (root, args, ctx) {
-
-    
 
     return JSON.stringify(args);
 }

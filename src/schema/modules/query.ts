@@ -1,3 +1,6 @@
+import { getUserDetail } from '../../models/user-model'
+import { getLeaveDetail } from '../../models/leave-model'
+
 export const typeDef = `
 # Root Query
 type Query {
@@ -8,6 +11,8 @@ type Query {
     someType: SomeType
     getPerson(id: String!): PersonType
     persons: [PersonType]
+    getUserDetail(id: String!) : String
+    getLeaveDetail(id: String) : String
 }
 `;
 
@@ -28,5 +33,9 @@ export const resolver = {
     someType(root, args, ctx) {
       return {testFloat: 303.0303, testInt: 666};
     },
+
+    // our stuff
+    getUserDetail,
+    getLeaveDetail
   },
 };

@@ -1,14 +1,15 @@
 import { signUp, logIn, getUserDetail } from '../../models/user-model'
 import { UserType } from '../../types/user-type'
-// import { } from '../../models/leave-model'
+import { applyLeave, changeStatus } from '../../models/leave-model'
 
 export const typeDef = `
 # Mutations
 type Mutation {
     addPerson(name: String!, sex: String!): PersonType
     signUp(id:String) : String
-    logIn(email: String, passowrd: String) : Boolean
-    getUserDetail(id: String!) : String
+    logIn(email: String, passowrd: String) : String
+    applyLeave(param1: String) : String
+    changeStatus(leaveId: String!, status : String): Boolean
 }
 `;
 
@@ -19,6 +20,8 @@ export const resolver = {
     },
     signUp, 
     logIn,
-    getUserDetail
+    // leave regarding
+    applyLeave,
+    changeStatus
   },
 };
