@@ -6,7 +6,7 @@ export const typeDef = `
 # Mutations
 type Mutation {
     addPerson(name: String!, sex: String!): PersonType
-    signUp(id:String) : String
+    signUp(email: String, displayName : String, empid : String, password : String) : String
     logIn(email: String, passowrd: String) : String
     applyLeave(param1: String) : String
     changeStatus(leaveId: String!, status : String): Boolean
