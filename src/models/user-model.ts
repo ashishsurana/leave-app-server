@@ -1,11 +1,10 @@
-import  mongoose = require( 'mongoose');
-import {Model} from 'mongoose'
+import { Document, Schema, Model } from "mongoose";
+import  { mongoose } from '../data-base/database' 
+import { User } from '../types/user-type'
 
-import { UserType } from '../types/user-type'
+interface UserData extends User, Document { }
 
-interface UserData extends UserType, mongoose.Document { }
-
-var userSchema = new mongoose.Schema({
+var userSchema = new Schema({
     email: String,
     displayName : String,
     empid : String,
@@ -13,9 +12,9 @@ var userSchema = new mongoose.Schema({
     cl: Number,
     pl: Number,
     sl: Number,
-    history: [String]// to be chagned to [Leave]
+    history: [String]
 });
-export const UserModel: Model<UserData> = mongoose.model<UserData>("user", userSchema);
+export const UserModel: Model<UserData> = mongoose.model<UserData>("User", userSchema);
 
 export async function signUp (root, args, ctx) {
     let user = new UserModel( args );
@@ -23,10 +22,9 @@ export async function signUp (root, args, ctx) {
 }
 
 export async function logIn (root, args, ctx) {
+    let user = new UserModel( args );
+    return await user.save();
 
-    console.log("Arguments", args);
-
-    return true;
 }
 
 export async function getUserDetail(root, args, ctx) {

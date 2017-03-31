@@ -5,7 +5,7 @@ import {Schema} from './schema';
 import * as cors from 'cors';
 import * as helmet from 'helmet';
 import * as morgan from 'morgan';
-import  mongoose = require('mongoose');
+
 
 // Default port or given one.
 export const GRAPHQL_ROUTE = "/graphql";
@@ -61,13 +61,6 @@ export function main(options: IMainOptions) {
       if (options.verbose) {
         verbosePrint(options.port, options.enableGraphiql);
       }
-      // mongoose connector
-      mongoose.connect('mongodb://localhost/leave', function(err) {
-        if(err){       
-            console.log('connection error', err);
-        } else {
-                console.log('connection successful');
-        }});
 
       resolve(server);
     }).on("error", (err: Error) => {

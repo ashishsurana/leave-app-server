@@ -11,6 +11,8 @@ type Query {
     someType: SomeType
     getPerson(id: String!): PersonType
     persons: [PersonType]
+
+    
     getUserDetail(id: String!) : String
     getLeaveDetail(id: String) : String
 }
