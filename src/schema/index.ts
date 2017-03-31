@@ -8,6 +8,7 @@ const modules = [
   require("./modules/person-type"),
   require("./modules/query"),
   require("./modules/mutation"),
+  require("../types/user-type")
 ];
 
 const mainDefs = [`

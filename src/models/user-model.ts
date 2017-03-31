@@ -17,14 +17,26 @@ var userSchema = new Schema({
 export const UserModel: Model<UserData> = mongoose.model<UserData>("User", userSchema);
 
 export async function signUp (root, args, ctx) {
-    let user = new UserModel( args );
-    return await user.save();
+    let user = new UserModel(
+        this.email : args.email 
+    );
+    console.log("User is", user);
+    user.save(function(err, doc){
+        if(doc){
+            console.log("Doc ", doc);
+            // return doc;
+        }
+        if(err){
+            return err;
+        }
+    });
+    return user;
+
 }
 
 export async function logIn (root, args, ctx) {
     let user = new UserModel( args );
     return await user.save();
-
 }
 
 export async function getUserDetail(root, args, ctx) {
