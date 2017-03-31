@@ -17,8 +17,7 @@ var userSchema = new Schema({
 export const UserModel: Model<UserData> = mongoose.model<UserData>("User", userSchema);
 
 export async function signUp (root, args, ctx) {
-    let user = new UserModel(
-        this.email : args.email 
+    let user = new UserModel(args
     );
     console.log("User is", user);
     user.save(function(err, doc){
