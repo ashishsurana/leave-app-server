@@ -20,20 +20,23 @@ mongoose.Promise = Promise;
     db.on('connected', () => {
         console.info('Connected to MongoDB!');
 
-        // making first entries
-        let admin = new UserModel({
-            email : "admin",
-            empId : "admin",
-            moderator : null,
-            otp: null,
-            role: "A",
-            isOnDuty: true,
-            password: "admin",
-            displayName: "admin"
-            
-        });
+        let admin1 = UserModel.find({ email: "admin" }).exec(function (err, doc) {
+            if (!doc) {
+                // making first entries
+                let admin = new UserModel({
+                    email: "admin",
+                    empId: "admin",
+                    moderator: null,
+                    otp: null,
+                    role: "A",
+                    isOnDuty: true,
+                    password: "admin",
+                    displayName: "admin"
 
-        admin.save();
+                });
+                admin.save();
+            }
+        })
     });
     connect();
 
