@@ -142,3 +142,41 @@ function getStats(leaves){
                 "awaited" : awaited
              }
 }
+
+export async function compareDepartMents(req, res, next) {
+    let args = req.query;
+
+    let users1 = await UserModel.find({department : args.dept1})
+                .populate("history")
+                .exec(function(err, doc){
+        if(err){
+            console.log("Error is ", err);
+        }
+    });
+
+    let users2 = await UserModel.find({department : args.dept2})
+                .populate("history")
+                .exec(function(err, doc){
+        if(err){
+            console.log("Error is ", err);
+        }
+    });
+
+    res.send({"dept1" : getCurrentStats(users1),
+              "dept2" : getCurrentStats(users2)
+    });
+}
+
+function getCurrentStats(user1){
+    let total = 0, present = 0, absent =0;
+    user1.map((u) => {
+        if(u.isOnDuty == true){
+            present ++;
+        }
+        else{
+            absent ++ ;
+        }
+    });
+
+    return {"total" : user1.length, 'present': present, 'absent': absent};
+}
