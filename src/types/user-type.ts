@@ -25,6 +25,10 @@ export interface User {
     sl: number | 0;
     history: [Leave];
     otp : String;
+    isOnDuty : Boolean;
+    isModerator : Boolean;
+    requests : [Leave];
+    moderator : User;
 };
 
 

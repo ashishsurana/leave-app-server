@@ -12,11 +12,11 @@ var leaveSchema = new Schema({
     reason: { type: String, required: true },
     status : { type: String, required: true, default : "Waiting" },
     user: { type: Schema.Types.ObjectId, required: true, ref: "User" },
-    startDate : String,
-    endDate : String,
-    applyTime: {},
+    startDate : Date,
+    endDate : Date,
+    applyTime: {type: Date, default : Date.now()},
     responseTime : {},
-    approvedBy : { type: Schema.Types.ObjectId, ref: "User" },
+    moderator : { type: Schema.Types.ObjectId, ref: "User" },
     type : String
 });
 
@@ -25,8 +25,7 @@ export const LeaveModel: Model<LeaveData> = mongoose.model<LeaveData>("Leave", l
 export async function applyLeave(req, res, next) {
     let args = req.query;
     let type = args.type;
-    // delete args.type;
-    console.log(args)
+    
     // add in leave db
     let leave = await new LeaveModel(args)
                 .populate("user")
@@ -37,12 +36,21 @@ export async function applyLeave(req, res, next) {
         }
     });
     // update in user.history
-    await UserModel.update({_id:args.user},{$addToSet:{history : mongoose.Types.ObjectId(leave._id)}}).exec(function(err, doc){
+    let user = await UserModel.findByIdAndUpdate({_id:args.user},{$addToSet:{history : mongoose.Types.ObjectId(leave._id)}}).exec(function(err, doc){
         console.log(err, doc);
         if(err){
             res.send(err);
         }
+        if(doc){
+            // user = doc;
+        }
     });
+
+    // update in moderator requests
+    await UserModel.findByIdAndUpdate({_id: user.moderator}, {$addToSet : {requests : mongoose.Types.ObjectId(leave._id)}});
+
+    leave.moderator = user.moderator;
+    leave.save()
 
     res.send( leave);
 }
@@ -51,16 +59,17 @@ export async function changeStatus(req, res, next) {
     let args = req.query;
     let flag = false;
     // find leave by id
-    let leave =await LeaveModel.findByIdAndUpdate({_id : args.leaveId}, { status : args.status }).exec(function(err, res){
-        if(res){
-            console.log("Response is", res);
+    let leave =await LeaveModel.findByIdAndUpdate({_id : args.id}, { status : args.status, responseTime : Date.now() }).exec(function(err, doc){
+        if(doc){
+            console.log("Response is", doc);
             flag = true;
         }
         if(err){
             console.log("Error is" , err);
-            flag = false;
+            res.send(true);
         }
     });
+     
 
     let user = await UserModel.findById({_id: leave.user});
 
@@ -71,9 +80,7 @@ export async function changeStatus(req, res, next) {
         user.save();
     }
 
-    console.log("Mail response", sendMail(user.email));
-
-    return flag;
+    res.send(true);
 }
 
 export async function getLeaveDetail(req, res, next) {

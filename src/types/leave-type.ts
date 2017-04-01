@@ -15,8 +15,12 @@ export const typeDef = `
 export interface Leave {
         reason: string;
         status: string;
-        startingDate: string;
-        endingDate: string;
         user: User;
+        startDate : Date;
+        endDate : Date;
+        applyTime: Date;
+        responseTime : Date;
+        moderator : User;
         type : String;
+
 };

@@ -7,17 +7,21 @@ import { sendMail } from './mailer'
 interface UserData extends User, Document { }
 
 var userSchema = new Schema({
-    email: {type:String, default:null},
-    displayName : {type:String, default:null},
-    empId : {type:String, default:null},
-    password : {type:String, default:null}, 
+    email: {type:String,required: true, default:null},
+    displayName : {type:String, required: true, default:null},
+    empId : {type:String, required: true, default:null},
+    password : {type:String, required: true, default:null}, 
     cl: {type:Number, default:10},
     pl: {type:Number, default:10},
     sl: {type:Number, default:10},
     isOnDuty : Boolean,
+    isModerator : {type:Boolean, required: true, default:false},
+    requests : [{type:Schema.Types.ObjectId, required: true, default:null, ref : "Leave"}],
+    moderator : {type: Schema.Types.ObjectId, required: false, ref: "User", default : null},
     otp : {type:String, default:null},
-    history: [{ type: Schema.Types.ObjectId, required: true, ref: "Leave" }]
-});
+    history: [{ type: Schema.Types.ObjectId, required: true, ref: "Leave" , default: null}],
+    
+}).index({ email : 1, empId : 1 },{ unique : true });
 
 export const UserModel: Model<UserData> = mongoose.model<UserData>("User", userSchema);
 
@@ -28,12 +32,14 @@ export async function signUp (req, res, next) {
     await user.save(function(err, doc){
         if(doc){
             console.log("Doc ", doc);
+                res.send( doc);
         }
         if(err){
             res.send(err) ;
+            return;
         }
     });
-    res.send( user);
+
 }
 
 export async function logIn (req, res, next) {
