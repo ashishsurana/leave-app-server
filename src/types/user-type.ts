@@ -11,6 +11,7 @@ export const typeDef = `
         pl: Int
         sl: Int
         history: [Leave]
+        otp : String
     }
 `;
 
@@ -23,6 +24,7 @@ export interface User {
     pl: number | 0;
     sl: number | 0;
     history: [Leave];
+    otp : String;
 };
 
 

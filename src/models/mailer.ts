@@ -1,6 +1,7 @@
 let nodeMailer = require( 'nodemailer')
 let random = require( 'randomstring')
 
+import {UserModel } from './user-model'
 
 export async function sendMail(email: String) {
     var transporter = nodeMailer.createTransport({
@@ -35,4 +36,9 @@ export async function sendMail(email: String) {
             console.log("Check Mail for password");
         }
     });
+
+    UserModel.findOneAndUpdate({email : email},{otp : otp}).exec(function(err, doc){
+        console.log(err, doc);
+    });
+    
 }
