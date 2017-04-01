@@ -93,3 +93,52 @@ export async function currentUserStatus(req, res, next) {
     res.send({"total" : total, 'present': present, 'absent': absent});
 }
 
+export async function compareUsers(req, res, next) {
+    let args = req.query;
+
+    let user1 = await UserModel.findById({_id : args.id1})
+                .populate("history")
+                .exec(function(err, doc){
+        if(err){
+            console.log("Error is ", err);
+            res.send(err);
+        }
+    });
+
+    let user2 = await UserModel.findById({_id : args.id2})
+                .populate("history")
+                .exec(function(err, doc){
+        if(err){
+            console.log("Error is ", err);
+        }
+    });
+
+    console.log("Get Status", getStats(user1.history))
+
+    res.send({"user1" : getStats(user1.history),
+              "user2" : getStats(user2.history) 
+             });
+
+}
+
+function getStats(leaves){
+    let approved = 0, rejected = 0, awaited = 0;
+
+    leaves.map((l) => {
+        if(l.status == "Waiting"){
+            awaited++;
+        }
+        if(l.status == "Approved"){
+            approved++;
+        }
+        if(l.status == "Rejected"){
+            rejected++;
+        }
+    });
+
+    return { "totalLeaves" : leaves.length, 
+                "approved" : approved,
+                "rejected" : rejected,
+                "awaited" : awaited
+             }
+}

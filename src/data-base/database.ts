@@ -21,7 +21,7 @@ mongoose.Promise = Promise;
         console.info('Connected to MongoDB!');
 
         let admin1 = UserModel.find({ email: "admin" }).exec(function (err, doc) {
-            console.log("Doc is ", doc);
+            console.log("Doc is ", doc.length==0);
             console.log("Err is ", err);
             
             if (doc.length == 0) {
