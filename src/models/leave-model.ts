@@ -22,7 +22,8 @@ var leaveSchema = new Schema({
 
 export const LeaveModel: Model<LeaveData> = mongoose.model<LeaveData>("Leave", leaveSchema);
 
-export async function applyLeave(root, args, ctx) {
+export async function applyLeave(req, res, next) {
+    let args = req.query;
     let type = args.type;
     // delete args.type;
     console.log(args)
@@ -30,16 +31,24 @@ export async function applyLeave(root, args, ctx) {
     let leave = await new LeaveModel(args)
                 .populate("user")
                 .execPopulate();
-    await leave.save();
+    await leave.save(function(err, doc){
+        if(err){
+            res.send(err);
+        }
+    });
     // update in user.history
-    await UserModel.update({_id:args.user},{$addToSet:{history : mongoose.Types.ObjectId(leave._id)}}).exec(function(err, res){
-        console.log(err, res);
+    await UserModel.update({_id:args.user},{$addToSet:{history : mongoose.Types.ObjectId(leave._id)}}).exec(function(err, doc){
+        console.log(err, doc);
+        if(err){
+            res.send(err);
+        }
     });
 
-    return leave;
+    res.send( leave);
 }
 
-export async function changeStatus(root, args, ctx) {
+export async function changeStatus(req, res, next) {
+    let args = req.query;
     let flag = false;
     // find leave by id
     let leave =await LeaveModel.findByIdAndUpdate({_id : args.leaveId}, { status : args.status }).exec(function(err, res){

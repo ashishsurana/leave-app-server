@@ -6,7 +6,7 @@ import * as cors from 'cors';
 import * as helmet from 'helmet';
 import * as morgan from 'morgan';
 
-import { getLeaveDetail } from './models/leave-model'
+import { getLeaveDetail , applyLeave, changeStatus} from './models/leave-model'
 import { getUserDetail, signUp, logIn, matchOtp } from './models/user-model'
 
 // Default port or given one.
@@ -45,6 +45,10 @@ export function main(options: IMainOptions) {
   app.post('/signUp', signUp);
   app.post('/logIn', logIn);
   app.post('/matchOtp', matchOtp);
+
+  // leave related APIs
+  app.post('/applyLeave', applyLeave);
+  app.post('/changeStatus', changeStatus);
   
 
 

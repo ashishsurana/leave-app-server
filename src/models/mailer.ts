@@ -22,7 +22,7 @@ export async function sendMail(email: String) {
 
     var mailOptions = {
         from: 'suranaa493@gmail.com',
-        to: 'ashishsurana12345@gmail.com',
+        to: email,
         subject: 'OTP - Leave App Server',
         html: otp
     };
