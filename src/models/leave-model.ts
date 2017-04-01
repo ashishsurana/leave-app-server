@@ -2,7 +2,8 @@ import { Document, Schema, Model } from "mongoose";
 import  { mongoose } from '../data-base/database' 
 import { User } from '../types/user-type'
 import { Leave } from '../types/leave-type'
-import { UserModel } from './user-model'
+import { UserModel } from './user-model';
+import { sendMail } from './mailer'
 
 interface LeaveData extends Leave, Document { }
 
@@ -51,23 +52,28 @@ export async function changeStatus(root, args, ctx) {
             flag = false;
         }
     });
+
+    let user = await UserModel.findById({_id: leave.user});
+
     if (args.status == "Approved"){
-        let user = await UserModel.findById({_id: leave.user});
         console.log("Leave type is", leave.type);
         user[String(leave.type)]
         console.log(user[String(leave.type)] = user[String(leave.type)] -1 );
         user.save();
     }
+
+    console.log("Mail response", sendMail(user.email));
+
     return flag;
 }
 
-export async function getLeaveDetail(root, args, ctx) {
-    let leave = await LeaveModel.findById({_id : args.id})
+export async function getLeaveDetail(req, res, next) {
+    let leave = await LeaveModel.findById({_id : req.query.id})
                 .populate("user")
                 .exec(function(err, res){
         if(err){
             console.log("Error is ", err);
         }
     });
-    return leave;
+    res.send(leave) ;
 }

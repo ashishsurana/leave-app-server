@@ -6,6 +6,8 @@ import * as cors from 'cors';
 import * as helmet from 'helmet';
 import * as morgan from 'morgan';
 
+import { getLeaveDetail } from './models/leave-model'
+import { getUserDetail } from './models/user-model'
 
 // Default port or given one.
 export const GRAPHQL_ROUTE = "/graphql";
@@ -36,6 +38,22 @@ export function main(options: IMainOptions) {
   let app = express();
   
   app.use(helmet());
+
+  app.get('/getUserDetails', getUserDetail);
+  app.get('/getLeaveDetails', getLeaveDetail)
+
+
+
+
+
+
+
+
+
+
+
+
+
   
   app.use(morgan(options.env));
   

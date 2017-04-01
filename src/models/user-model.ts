@@ -36,25 +36,25 @@ export async function logIn (root, args, ctx) {
     let user =await UserModel.findOne({email : args.email});
     console.log("User",args);
     console.log("User",user);
-    if(user.password == args.password){
+    if(user && user.password == args.password ){
         console.log("password matched matched");
         return user;
     }
     return null;
 }
 
-export async function getUserDetail(root, args, ctx) {
-    let user = await UserModel.findById({_id : args.id})
+export async function getUserDetail(req, res, next) {
+    let user = await UserModel.findById({_id : req.query.id})
                 .populate("history")
                 .exec(function(err, res){
         if(err){
             console.log("Error is ", err);
         }
     });
-    return user;
+    res.send(user);
 }
 
 export async function currentUserStatus(root, args, ctx) {
-    
+
 }
 
