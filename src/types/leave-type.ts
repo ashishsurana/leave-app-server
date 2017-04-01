@@ -22,5 +22,5 @@ export interface Leave {
         responseTime : Date;
         moderator : User;
         type : String;
-
+        days : Number;
 };

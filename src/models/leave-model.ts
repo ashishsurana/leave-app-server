@@ -16,6 +16,7 @@ var leaveSchema = new Schema({
     endDate : Date,
     applyTime: {type: Date, default : Date.now()},
     responseTime : {},
+    days : Number,
     moderator : { type: Schema.Types.ObjectId, ref: "User" },
     type : String
 });
@@ -28,7 +29,7 @@ export async function applyLeave(req, res, next) {
     
     // add in leave db
     let leave = await new LeaveModel(args)
-                .populate("user")
+                .populate("user.requests")
                 .execPopulate();
     await leave.save(function(err, doc){
         if(err){
@@ -76,7 +77,7 @@ export async function changeStatus(req, res, next) {
     if (args.status == "Approved"){
         console.log("Leave type is", leave.type);
         user[String(leave.type)]
-        console.log(user[String(leave.type)] = user[String(leave.type)] -1 );
+        console.log(user[String(leave.type)] = user[String(leave.type)] - Number(leave.days) );
         user.save();
     }
 

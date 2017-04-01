@@ -107,6 +107,7 @@ export async function compareUsers(req, res, next) {
 
     let user2 = await UserModel.findById({_id : args.id2})
                 .populate("history")
+                .populate("requests")
                 .exec(function(err, doc){
         if(err){
             console.log("Error is ", err);
