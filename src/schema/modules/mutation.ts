@@ -9,7 +9,7 @@ type Mutation {
 
     signUp(email: String!, displayName : String!, empId : String!, password : String!) : User
     logIn(email: String!, password: String!) : User
-    applyLeave(reason: String!, user : ID!) : Leave
+    applyLeave(reason: String!, user : ID!, type : String!) : Leave
     changeStatus(leaveId: String!, status : String): Boolean
 }
 `;

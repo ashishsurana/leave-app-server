@@ -9,16 +9,22 @@ interface LeaveData extends Leave, Document { }
 
 var leaveSchema = new Schema({
     reason: { type: String, required: true },
-    status : { type: String, required: true },
+    status : { type: String, required: true, default : "Waiting" },
     user: { type: Schema.Types.ObjectId, required: true, ref: "User" },
     startDate : String,
     endDate : String,
-    approvedBy : { type: Schema.Types.ObjectId, ref: "User" }
+    applyTime: {},
+    responseTime : {},
+    approvedBy : { type: Schema.Types.ObjectId, ref: "User" },
+    type : String
 });
 
 export const LeaveModel: Model<LeaveData> = mongoose.model<LeaveData>("Leave", leaveSchema);
 
 export async function applyLeave(root, args, ctx) {
+    let type = args.type;
+    // delete args.type;
+    console.log(args)
     // add in leave db
     let leave = await new LeaveModel(args)
                 .populate("user")
@@ -36,7 +42,6 @@ export async function changeStatus(root, args, ctx) {
     let flag = false;
     // find leave by id
     let leave =await LeaveModel.findByIdAndUpdate({_id : args.leaveId}, { status : args.status }).exec(function(err, res){
-
         if(res){
             console.log("Response is", res);
             flag = true;
@@ -46,6 +51,13 @@ export async function changeStatus(root, args, ctx) {
             flag = false;
         }
     });
+    if (args.status == "Approved"){
+        let user = await UserModel.findById({_id: leave.user});
+        console.log("Leave type is", leave.type);
+        user[String(leave.type)]
+        console.log(user[String(leave.type)] = user[String(leave.type)] -1 );
+        user.save();
+    }
     return flag;
 }
 

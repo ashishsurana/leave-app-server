@@ -1,3 +1,5 @@
+import {Leave} from './leave-type'
+
 export const typeDef = `
     type User {
         id: ID!
@@ -8,7 +10,7 @@ export const typeDef = `
         cl: Int
         pl: Int
         sl: Int
-        history: [String]
+        history: [Leave]
     }
 `;
 
@@ -20,7 +22,7 @@ export interface User {
     cl: number | 0;
     pl: number | 0;
     sl: number | 0;
-    history: [string];
+    history: [Leave];
 };
 
 

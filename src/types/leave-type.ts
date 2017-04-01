@@ -8,6 +8,7 @@ export const typeDef = `
         startingDate: String
         endingDate: String
         user: User
+        type : String
     }
 `;
 
@@ -17,4 +18,5 @@ export interface Leave {
         startingDate: string;
         endingDate: string;
         user: User;
+        type : String;
 };

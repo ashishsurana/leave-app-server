@@ -9,11 +9,13 @@ var userSchema = new Schema({
     displayName : {type:String, default:null},
     empId : {type:String, default:null},
     password : {type:String, default:null}, 
-    cl: {type:Number, default:0},
-    pl: {type:Number, default:0},
-    sl: {type:Number, default:0},
+    cl: {type:Number, default:10},
+    pl: {type:Number, default:10},
+    sl: {type:Number, default:10},
+    isOnDuty : Boolean,
     history: [{ type: Schema.Types.ObjectId, required: true, ref: "Leave" }]
 });
+
 export const UserModel: Model<UserData> = mongoose.model<UserData>("User", userSchema);
 
 export async function signUp (root, args, ctx) {
@@ -42,9 +44,17 @@ export async function logIn (root, args, ctx) {
 }
 
 export async function getUserDetail(root, args, ctx) {
+    let user = await UserModel.findById({_id : args.id})
+                .populate("history")
+                .exec(function(err, res){
+        if(err){
+            console.log("Error is ", err);
+        }
+    });
+    return user;
+}
 
-    console.log("Arguments", args);
-
-    return true;
+export async function currentUserStatus(root, args, ctx) {
+    
 }
 
