@@ -7,8 +7,8 @@ export const typeDef = `
 type Mutation {
     addPerson(name: String!, sex: String!): PersonType
 
-    signUp(email: String, displayName : String, empid : String, password : String) : User
-    logIn(email: String, passowrd: String) : User
+    signUp(email: String, displayName : String, empId : String, password : String) : User
+    logIn(email: String, password: String) : User
     applyLeave(param1: String) : String
     changeStatus(leaveId: String!, status : String): Boolean
 }

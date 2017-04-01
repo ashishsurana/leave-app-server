@@ -1,25 +1,26 @@
 export const typeDef = `
     type User {
+        id: ID!
         email: String
         displayName: String
         password: String
         empId: String
-        cl: String
-        pl: String
-        sl: String
+        cl: Int
+        pl: Int
+        sl: Int
         history: [String]
     }
 `;
 
 export interface User {
-    email: String;
-    displayName: String;
-    password: String;
-    empId: String;
-    cl: String;
-    pl: String;
-    sl: String;
-    history: [String];
+    email: string | null;
+    displayName: string | null;
+    password: string | null;
+    empId: string | null;
+    cl: number | 0;
+    pl: number | 0;
+    sl: number | 0;
+    history: [string];
 };
 
 

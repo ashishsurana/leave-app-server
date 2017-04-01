@@ -5,37 +5,40 @@ import { User } from '../types/user-type'
 interface UserData extends User, Document { }
 
 var userSchema = new Schema({
-    email: String,
-    displayName : String,
-    empid : String,
-    password : String, 
-    cl: Number,
-    pl: Number,
-    sl: Number,
-    history: [String]
+    email: {type:String, default:null},
+    displayName : {type:String, default:null},
+    empId : {type:String, default:null},
+    password : {type:String, default:null}, 
+    cl: {type:Number, default:null},
+    pl: {type:Number, default:null},
+    sl: {type:Number, default:null},
+    history: [{type:String, default:null}]
 });
 export const UserModel: Model<UserData> = mongoose.model<UserData>("User", userSchema);
 
 export async function signUp (root, args, ctx) {
     let user = new UserModel(args
     );
-    console.log("User is", user);
-    user.save(function(err, doc){
+    await user.save(function(err, doc){
         if(doc){
             console.log("Doc ", doc);
-            // return doc;
         }
         if(err){
             return err;
         }
     });
     return user;
-
 }
 
 export async function logIn (root, args, ctx) {
-    let user = new UserModel( args );
-    return await user.save();
+    let user =await UserModel.findOne({email : args.email});
+    console.log("User",args);
+    console.log("User",user);
+    if(user.password == args.password){
+        console.log("password matched matched");
+        return user;
+    }
+    return null;
 }
 
 export async function getUserDetail(root, args, ctx) {
