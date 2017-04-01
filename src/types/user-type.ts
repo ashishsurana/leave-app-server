@@ -26,7 +26,7 @@ export interface User {
     history: [Leave];
     otp : String;
     isOnDuty : Boolean;
-    isModerator : Boolean;
+    role : String;
     requests : [Leave];
     moderator : User;
 };

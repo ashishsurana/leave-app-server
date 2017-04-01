@@ -15,12 +15,11 @@ var userSchema = new Schema({
     pl: {type:Number, default:10},
     sl: {type:Number, default:10},
     isOnDuty : {type:Boolean, default:true},
-    isModerator : {type:Boolean, required: true, default:false},
+    role : {type:String, required: true, default:"U"},
     requests : [{type:Schema.Types.ObjectId, required: true, default:null, ref : "Leave"}],
     moderator : {type: Schema.Types.ObjectId, required: false, ref: "User", default : null},
     otp : {type:String, default:null},
     history: [{ type: Schema.Types.ObjectId, required: true, ref: "Leave" , default: null}],
-    
 }).index({ email : 1, empId : 1 },{ unique : true });
 
 export const UserModel: Model<UserData> = mongoose.model<UserData>("User", userSchema);
