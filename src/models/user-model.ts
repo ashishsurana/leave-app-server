@@ -1,7 +1,7 @@
 import { Document, Schema, Model } from "mongoose";
 import  { mongoose } from '../data-base/database' 
 import { User } from '../types/user-type'
-
+import { Leave } from '../types/leave-type'
 interface UserData extends User, Document { }
 
 var userSchema = new Schema({
@@ -9,10 +9,10 @@ var userSchema = new Schema({
     displayName : {type:String, default:null},
     empId : {type:String, default:null},
     password : {type:String, default:null}, 
-    cl: {type:Number, default:null},
-    pl: {type:Number, default:null},
-    sl: {type:Number, default:null},
-    history: [{type:String, default:null}]
+    cl: {type:Number, default:0},
+    pl: {type:Number, default:0},
+    sl: {type:Number, default:0},
+    history: [{ type: Schema.Types.ObjectId, required: true, ref: "Leave" }]
 });
 export const UserModel: Model<UserData> = mongoose.model<UserData>("User", userSchema);
 
