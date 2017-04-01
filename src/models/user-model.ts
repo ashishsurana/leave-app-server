@@ -20,6 +20,7 @@ var userSchema = new Schema({
     moderator : {type: Schema.Types.ObjectId, required: false, ref: "User", default : null},
     otp : {type:String, default:null},
     history: [{ type: Schema.Types.ObjectId, required: true, ref: "Leave" , default: null}],
+    department : {type:String, required: false, default:null}
 }).index({ email : 1, empId : 1 },{ unique : true });
 
 export const UserModel: Model<UserData> = mongoose.model<UserData>("User", userSchema);

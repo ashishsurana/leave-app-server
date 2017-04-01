@@ -29,6 +29,7 @@ export interface User {
     role : String;
     requests : [Leave];
     moderator : User;
+    department : String;
 };
 
 
