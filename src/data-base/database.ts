@@ -24,7 +24,7 @@ mongoose.Promise = Promise;
             console.log("Doc is ", doc);
             console.log("Err is ", err);
             
-            if (!doc) {
+            if (doc.length == 0) {
 
                 // making first entries
                 let admin = new UserModel({
