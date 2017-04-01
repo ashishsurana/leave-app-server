@@ -13,8 +13,8 @@ type Query {
     persons: [PersonType]
 
     
-    getUserDetail(id: String!) : String
-    getLeaveDetail(id: String) : String
+    getUserDetail(id: String!) : User
+    getLeaveDetail(id: String) : Leave
 }
 `;
 

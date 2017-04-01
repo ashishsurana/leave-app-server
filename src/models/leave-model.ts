@@ -8,11 +8,12 @@ interface LeaveData extends Leave, Document { }
 
 
 var leaveSchema = new Schema({
-    reason: String,
-    status : String,
+    reason: { type: String, required: true },
+    status : { type: String, required: true },
     user: { type: Schema.Types.ObjectId, required: true, ref: "User" },
     startDate : String,
-    endDate : String
+    endDate : String,
+    approvedBy : { type: Schema.Types.ObjectId, ref: "User" }
 });
 
 export const LeaveModel: Model<LeaveData> = mongoose.model<LeaveData>("Leave", leaveSchema);
@@ -49,6 +50,12 @@ export async function changeStatus(root, args, ctx) {
 }
 
 export async function getLeaveDetail(root, args, ctx) {
-    // find by id and send
-    return "jn";
+    let leave = await LeaveModel.findById({_id : args.id})
+                .populate("user")
+                .exec(function(err, res){
+        if(err){
+            console.log("Error is ", err);
+        }
+    });
+    return leave;
 }

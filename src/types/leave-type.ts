@@ -17,4 +17,4 @@ export interface Leave {
         startingDate: string;
         endingDate: string;
         user: User;
-}
+};
