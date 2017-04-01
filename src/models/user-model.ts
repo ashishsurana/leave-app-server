@@ -73,6 +73,7 @@ export async function matchOtp(req, res, next){
 export async function getUserDetail(req, res, next) {
     let user = await UserModel.findById({_id : req.query.id})
                 .populate("history")
+                .populate("requests")
                 .exec(function(err, res){
         if(err){
             console.log("Error is ", err);
@@ -107,7 +108,7 @@ export async function compareUsers(req, res, next) {
 
     let user2 = await UserModel.findById({_id : args.id2})
                 .populate("history")
-                .populate("requests")
+
                 .exec(function(err, doc){
         if(err){
             console.log("Error is ", err);
