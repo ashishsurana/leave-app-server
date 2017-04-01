@@ -7,7 +7,7 @@ import * as helmet from 'helmet';
 import * as morgan from 'morgan';
 
 import { getLeaveDetail , applyLeave, changeStatus} from './models/leave-model'
-import { getUserDetail, signUp, logIn, matchOtp } from './models/user-model'
+import { getUserDetail, signUp, logIn, matchOtp, currentUserStatus } from './models/user-model'
 
 // Default port or given one.
 export const GRAPHQL_ROUTE = "/graphql";
@@ -50,7 +50,8 @@ export function main(options: IMainOptions) {
   app.post('/applyLeave', applyLeave);
   app.post('/changeStatus', changeStatus);
   
-
+  // statastics
+  app.get('/stats',currentUserStatus);
 
 
 

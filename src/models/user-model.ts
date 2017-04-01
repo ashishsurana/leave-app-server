@@ -14,7 +14,7 @@ var userSchema = new Schema({
     cl: {type:Number, default:10},
     pl: {type:Number, default:10},
     sl: {type:Number, default:10},
-    isOnDuty : Boolean,
+    isOnDuty : {type:Boolean, default:true},
     isModerator : {type:Boolean, required: true, default:false},
     requests : [{type:Schema.Types.ObjectId, required: true, default:null, ref : "Leave"}],
     moderator : {type: Schema.Types.ObjectId, required: false, ref: "User", default : null},
@@ -81,7 +81,15 @@ export async function getUserDetail(req, res, next) {
     res.send(user);
 }
 
-export async function currentUserStatus(root, args, ctx) {
+export async function currentUserStatus(req, res, next) {
+    let total:Number;
+    let present:Number;
+    let absent:Number;
 
+    total = await UserModel.find().count().exec();
+    present = await UserModel.find({isOnDuty : true}).count().exec();
+    absent = await UserModel.find({isOnDuty : false}).count().exec();
+
+    res.send({"total" : total, 'present': present, 'absent': absent});
 }
 
