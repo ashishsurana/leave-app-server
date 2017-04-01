@@ -6,7 +6,7 @@ import * as cors from 'cors';
 import * as helmet from 'helmet';
 import * as morgan from 'morgan';
 
-import { getLeaveDetail , applyLeave, changeStatus} from './models/leave-model'
+import { getLeaveDetail , applyLeave, changeStatus, userLeaveHistory} from './models/leave-model'
 import { getUserDetail, signUp, logIn, matchOtp, currentUserStatus } from './models/user-model'
 
 // Default port or given one.
@@ -75,7 +75,7 @@ app.use(function(req, res, next) {
   
   // statastics
   app.get('/stats',currentUserStatus);
-
+  app.get('/user-leave-history', userLeaveHistory);
 
 
 

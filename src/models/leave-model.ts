@@ -93,3 +93,32 @@ export async function getLeaveDetail(req, res, next) {
     });
     res.send(leave) ;
 }
+
+export async function userLeaveHistory(req, res, next) {
+    let args = req.query;
+    let approved = 0, rejected = 0, awaited = 0;
+    let user = await UserModel.findById({_id:args.id})
+                                .populate("history")
+                                .exec();
+
+    let leaves = user.history;
+    console.log(leaves);
+
+    leaves.map((l) => {
+        if(l.status == "Waiting"){
+            awaited++;
+        }
+        if(l.status == "Approved"){
+            approved++;
+        }
+        if(l.status == "Rejected"){
+            rejected++;
+        }
+    }).length;
+
+    res.send( { "totalLeaves" : leaves.length, 
+                "approved" : approved,
+                "rejected" : rejected,
+                "awaited" :awaited
+             });
+}
