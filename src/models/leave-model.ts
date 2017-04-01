@@ -1,25 +1,30 @@
-import  mongoose = require( 'mongoose');
-import { LeaveType } from '../types/leave-type'
+import { Document, Schema, Model } from "mongoose";
+import  { mongoose } from '../data-base/database' 
+import { User } from '../types/user-type'
+import { Leave } from '../types/leave-type'
 
-var leaveSchema = new mongoose.Schema({
+interface LeaveData extends Leave, Document { }
+
+
+var leaveSchema = new Schema({
     reason: String,
     status : String,
-    // user: User,
+    user: { type: Schema.Types.ObjectId, required: true, ref: "User" },
     startDate : String,
     endDate : String
 });
 
-
-interface UserModel extends LeaveType, mongoose.Document { }
-
-var Leave = mongoose.model<UserModel>("Leave", leaveSchema);
+export const LeaveModel: Model<LeaveData> = mongoose.model<LeaveData>("Leave", leaveSchema);
 
 export async function applyLeave(root, args, ctx) {
     // add in leave db
-
+    let leave = await new LeaveModel(args)
+                .populate("user")
+                .execPopulate();
+    await leave.save();
+    // leave.populate("user");
     // update in user.history
-    return "pj";
-
+    return leave;
 }
 
 export async function changeStatus(root, args, ctx) {
