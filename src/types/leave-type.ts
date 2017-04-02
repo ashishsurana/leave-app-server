@@ -23,4 +23,5 @@ export interface Leave {
         moderator : User;
         type : String;
         days : Number;
+        empId : String;
 };

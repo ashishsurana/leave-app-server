@@ -17,6 +17,7 @@ var leaveSchema = new Schema({
     applyTime: {type: Date, default : Date.now()},
     responseTime : {},
     days : Number,
+    empId : String,
     moderator : { type: Schema.Types.ObjectId, ref: "User" },
     type : String
 });
@@ -51,6 +52,7 @@ export async function applyLeave(req, res, next) {
     await UserModel.findByIdAndUpdate({_id: user.moderator}, {$addToSet : {requests : mongoose.Types.ObjectId(leave._id)}});
 
     leave.moderator = user.moderator;
+    leave.empId = user.empId;
     leave.save()
 
     res.send( leave);

@@ -15,7 +15,19 @@ var RoleSchema = new Schema({
     cl : Number,
     pl : Number,
     sl : Number
-});
+}).index({name:1},{ unique : true });
 
 export const RoleModel: Model<RoleData> = mongoose.model<RoleData>("roles", RoleSchema);
 
+new RoleModel({name : "M",
+                cl:5,
+                pl:5,
+                sl:5,
+            })
+            .save();
+new RoleModel({name : "U",
+                cl:3,
+                pl:3,
+                sl:3,
+            })
+            .save();
