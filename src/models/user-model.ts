@@ -209,3 +209,16 @@ export async function getAllUsers (req, res, next) {
     })
 );
 }
+
+export async function getAllData(req, res, next){
+    let obj = {centralGov : {} };
+    let users = await UserModel.find({department : "Transport Department"}).exec();
+    obj.centralGov["Transport Department"] = users;
+    let users2 = await UserModel.find({department : "Health Department"}).exec();
+    obj.centralGov["Health Department"] = users2;
+    let users3 = await UserModel.find({department : "Road Department"}).exec();
+    obj.centralGov["Road Department"] = users3;
+    let users4 = await UserModel.find({department : "Medical Department"}).exec();
+    obj.centralGov["Medical Department"] = users4;
+    res.send(obj);
+}
