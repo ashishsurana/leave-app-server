@@ -75,6 +75,7 @@ app.use(function(req, res, next) {
   
   // statastics
   app.get('/stats',currentUserStatus);
+    app.get('/moderator-stats',currentUserStatus);
   app.get('/user-leave-history', userLeaveHistory);
 
   app.get('/user/compare',compareUsers )

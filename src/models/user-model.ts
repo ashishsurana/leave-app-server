@@ -182,3 +182,17 @@ function getCurrentStats(user1){
 
     return {"total" : user1.length, 'present': present, 'absent': absent};
 }
+
+export async function moderatorStatus(req, res, next) {
+    let args = req.query;
+
+    let user = await UserModel.findById({_id : args.id})
+                .populate("requests")
+                .exec(function(err, doc){
+        if(err){
+            console.log("Error is ", err);
+        }
+    });
+
+    res.send(getStats(user.requests));
+}
