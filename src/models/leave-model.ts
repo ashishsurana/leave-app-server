@@ -35,6 +35,7 @@ export async function applyLeave(req, res, next) {
     await leave.save(function(err, doc){
         if(err){
             res.send(err);
+            return;
         }
     });
     // update in user.history

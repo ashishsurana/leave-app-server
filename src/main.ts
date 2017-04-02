@@ -7,7 +7,8 @@ import * as helmet from 'helmet';
 import * as morgan from 'morgan';
 
 import { getLeaveDetail , applyLeave, changeStatus, userLeaveHistory} from './models/leave-model'
-import { getUserDetail, signUp, logIn, matchOtp, currentUserStatus, compareUsers,compareDepartMents, moderatorStatus } from './models/user-model'
+import { getUserDetail, signUp, logIn, matchOtp, currentUserStatus, compareUsers,
+        compareDepartMents, moderatorStatus,getAllUsers } from './models/user-model'
 
 // Default port or given one.
 export const GRAPHQL_ROUTE = "/graphql";
@@ -80,7 +81,7 @@ app.use(function(req, res, next) {
 
   app.get('/user/compare',compareUsers )
   app.get('/user/compare-department',compareDepartMents )
-
+  app.get('/user/all', getAllUsers)
   
 
 

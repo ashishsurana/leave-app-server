@@ -97,7 +97,7 @@ export async function currentUserStatus(req, res, next) {
 export async function compareUsers(req, res, next) {
     let args = req.query;
 
-    let user1 = await UserModel.findById({_id : args.id1})
+    let user1 = await UserModel.findOne({email : args.email1})
                 .populate("history")
                 .exec(function(err, doc){
         if(err){
@@ -106,12 +106,14 @@ export async function compareUsers(req, res, next) {
         }
     });
 
-    let user2 = await UserModel.findById({_id : args.id2})
+    let user2 = await UserModel.findOne({email : args.email2})
                 .populate("history")
 
                 .exec(function(err, doc){
         if(err){
             console.log("Error is ", err);
+            res.send(err);
+            return;
         }
     });
 
@@ -195,4 +197,15 @@ export async function moderatorStatus(req, res, next) {
     });
 
     res.send(getStats(user.requests));
+}
+
+export async function getAllUsers (req, res, next) {
+    res.send(await UserModel.find({})
+                .populate("requests")
+                .exec(function(err, doc){
+        if(err){
+            console.log("Error is ", err);
+        }
+    })
+);
 }
