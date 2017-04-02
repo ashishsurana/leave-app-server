@@ -15,8 +15,8 @@ var leaveSchema = new Schema({
     startDate : Date,
     endDate : Date,
     applyTime: {type: Date, default : Date.now()},
-    responseTime : {},
-    days : Number,
+    responseTime : {type: Date},
+    days : { type: Number, required: true },
     empId : String,
     moderator : { type: Schema.Types.ObjectId, ref: "User" },
     type : String
