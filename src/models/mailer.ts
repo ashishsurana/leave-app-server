@@ -8,7 +8,7 @@ export async function sendMail(email: String) {
         service: 'Gmail',
         auth: {
             user: 'suranaa493@gmail.com', // Your email id
-            pass: 'hack123@123' // Your password
+            pass: 'Dash@sh1' // Your password
         }
     });
 
