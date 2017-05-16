@@ -16,8 +16,8 @@ export interface Leave {
         reason: string;
         status: string;
         user: User;
-        startDate : Date;
-        endDate : Date;
+        startDate : String;
+        endDate : String;
         applyTime: Date;
         responseTime : Date;
         moderator : User;
