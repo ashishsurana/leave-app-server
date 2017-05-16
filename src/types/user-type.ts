@@ -3,7 +3,7 @@ import {Leave} from './leave-type'
 export const typeDef = `
     type User {
         id: ID!
-        email: String
+        email: Stringx
         displayName: String
         password: String
         empId: String
@@ -21,10 +21,15 @@ export interface User {
     password: string | null;
     empId: string | null;
     cl: number | 0;
+    clRem : number;
     pl: number | 0;
+    plRem : number;
     sl: number | 0;
+    slRem : number;
+    other : number;
     history: [Leave];
     otp : String;
+    gender : String;
     isOnDuty : Boolean;
     role : String;
     requests : [Leave];
