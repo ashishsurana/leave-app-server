@@ -79,8 +79,14 @@ export async function changeStatus(req, res, next) {
 
     if (args.status == "Approved"){
         console.log("Leave type is", leave.type);
-        user[String(leave.type)]
-        console.log(user[String(leave.type)] = user[String(leave.type)] - Number(leave.days) );
+        user[String(leave.type)];
+        if (user[String(leave.type)] <= Number(leave.days)){
+            console.log(user[String(leave.type)] = user[String(leave.type)] - Number(leave.days) );
+        } else {
+            res.send(false)
+        }
+
+        
         user.save();
     }
 

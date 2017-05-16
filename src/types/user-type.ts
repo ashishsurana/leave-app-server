@@ -26,6 +26,10 @@ export interface User {
     plRem : number;
     sl: number | 0;
     slRem : number;
+    patl : number;
+    patRem : number;
+    matl : number;
+    matRem : number;
     other : number;
     history: [Leave];
     otp : String;

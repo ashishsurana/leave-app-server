@@ -16,6 +16,7 @@ var userSchema = new Schema({
     pl: {type:Number, default:0},
     plRem : {type :Number, default : 0 },
     sl: {type:Number, default:0},
+    gender : String,
     slRem : {type :Number, default : 0 },
     other : {type : Number, default : 0},
     isOnDuty : {type:Boolean, default:true},
