@@ -3,7 +3,7 @@ import {Leave} from './leave-type'
 export const typeDef = `
     type User {
         id: ID!
-        email: Stringx
+        email: String
         displayName: String
         password: String
         empId: String
